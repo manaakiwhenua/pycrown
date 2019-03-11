@@ -1,0 +1,15 @@
+.eggs/
+PyCrown.egg-info/
+build/
+dist/
+.pytest_cache
+__pycache__
+*.tif
+*.shp
+*.shx
+*.dbf
+*.cpg
+*.prj
+*.las
+pycrown/_crown_dalponte_cython.c
+pycrown/_crown_dalponte_cython.cp36-win_amd64.pyd

@@ -1,0 +1,20 @@
+name: pycrown-env
+channels:
+  - conda
+dependencies:
+  - python=3.6
+  - pip>=10.0
+  - numpy>=1.14.5
+  - scipy==1.1.0
+  - scikit-image>=0.14.0
+  - Cython>=0.28.4
+  - numba>=0.39.0
+  - pandas==0.23.3
+  - geopandas==0.3.0
+  - Rtree>=0.8.3
+  - Fiona>=1.7.10
+  - GDAL>=2.2.2
+  - Shapely>=1.6.4
+  - rasterio>=0.36.0
+  - pip:
+    - laspy>=1.5.1
