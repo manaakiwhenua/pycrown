@@ -1,0 +1,14 @@
+.eggs/
+*.egg-info/
+build/
+dist/
+.pytest_cache
+__pycache__
+*.shp
+*.shx
+*.dbf
+*.cpg
+*.prj
+*.las
+*.c
+*.pyd
