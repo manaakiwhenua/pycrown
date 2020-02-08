@@ -110,7 +110,19 @@ In this case, please follow these steps:
 * `unzip LAStools.zip && cd LAStools && make`
 * `cp bin/laszip /home/USERNAME/miniconda3/envs/pycrown-env/bin/`
 
-If you encounter this error under Windows, please download LAStools.zip, extract the archive and copy the file "laszip.exe" from the "bin"-directory to the conda environment, e.g. C:\Users\<username>\AppData\Local\Continuum\miniconda3\pycrown-env\Scripts\
+If you encounter this error under Windows, please download LAStools.zip, extract the archive and copy the file "laszip.exe" from the "bin"-directory to the conda environment, e.g. C:\Users\<username>\AppData\Local\Continuum\miniconda3\pycrown-env\Scripts\ or C:\Users\<username>\Miniconda3\envs\pycrown-env\Scripts
+
+## Error while building 'pycrown._crown_dalponte_cython' extension
+Building the Cython module requires C++ build tools which may need to be installed on your system.
+
+The Windows error message on Windows provides instructions:
+`error: Microsoft Visual C++ 14.0 is required. Get it with "Build Tools for Visual Studio": https://visualstudio.microsoft.com/downloads/`
+During the setup process, please select 'C++ Build Tools'. 
+
+## TypeError: a bytes-like object is required, not 'FakeMmap' when trying to load .laz files
+There seems to be an incompatibility between laspy and numpy in recent versions. The combination `numpy==1.16.4` and `laspy==1.5.1` works for me.
+I suggest either not using .laz files for the time being or downgrading to the appropiate package versions.
+Please also refer to this github issue: https://github.com/laspy/laspy/issues/112
 
 
 # Getting Started

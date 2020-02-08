@@ -631,8 +631,8 @@ class PyCrown:
 
         self.crowns = np.array(crowns, dtype=np.int32)
 
-    def clip_trees_to_bbox(self, bbox=None, f_tiles=None, row=None, col=None,
-                           loc='top'):
+    def clip_trees_to_bbox(self, bbox=None, inbuf=None, f_tiles=None, row=None, 
+                           col=None, loc='top'):
         """ Clip tree tops and crowns to bounding box or tile extent.
         Tree dataframe is updated with subset of trees.
 
@@ -640,6 +640,8 @@ class PyCrown:
         ----------
         bbox :     tuple, optional
                    floats for (lon_min, lon_max, lat_min, lat_max)
+        inbuf :    integer or float, optional
+                   distance of inward buffer in metres
         f_tiles :  str, optional
                    Path to LiDAR tiles polygon with coordinates for all
                    bounding boxes for each tile
@@ -652,7 +654,12 @@ class PyCrown:
         """
         if bbox:
             lon_min, lon_max, lat_min, lat_max = bbox
-        if f_tiles:
+        elif inbuf:
+            lat_max = self.ul_lat - inbuf
+            lat_min = self.ul_lat - (self.chm.shape[0] * self.resolution) - inbuf
+            lon_min = self.ul_lon + inbuf
+            lon_max = self.ul_lon + (self.chm.shape[1] * self.resolution) - inbuf
+        elif f_tiles:
             # get the bounding box of each tile
             with fiona.open(f_tiles, 'r') as tilepolys_layer:
                 tiles = {}
@@ -667,6 +674,8 @@ class PyCrown:
 
             # identify and clip tree tops inside tile
             lon_min, lat_min, lon_max, lat_max = tiles[row, col]
+        else:
+            raise Exception("No clipping method specified.")
 
         tree_lons, tree_lats = self._tree_lonlat(loc)
         cond = (

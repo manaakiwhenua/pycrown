@@ -6,10 +6,10 @@ class TestTreeTopCorrection(unittest.TestCase):
 
     def setUp(self):
         ''' initialize test scenario '''
-        F_CHM = 'tests/data/CHM.tif'
-        F_DTM = 'tests/data/DTM.tif'
-        F_DSM = 'tests/data/DSM.tif'
-        F_LAS = 'tests/data/POINTS.laz'
+        F_CHM = 'example/data/CHM.tif'
+        F_DTM = 'example/data/DTM.tif'
+        F_DSM = 'example/data/DSM.tif'
+        F_LAS = 'example/data/POINTS.las'
         self.PC = PyCrown(F_CHM, F_DTM, F_DSM, F_LAS)
         self.PC.filter_chm(5)
         self.PC.tree_detection(self.PC.chm, ws=5, hmin=16.)

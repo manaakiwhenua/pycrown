@@ -20,7 +20,8 @@ extensions = [
     Extension(
         'pycrown._crown_dalponte_cython',
         sources=['pycrown/_crown_dalponte_cython.pyx'],
-        include_dirs=[np.get_include()]
+        include_dirs=[np.get_include()],
+        optional=True
     )
 ]
 

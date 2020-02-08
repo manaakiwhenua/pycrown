@@ -1,5 +1,6 @@
 .eggs/
 *.egg-info/
+result/
 build/
 dist/
 .pytest_cache
@@ -9,6 +10,5 @@ __pycache__
 *.dbf
 *.cpg
 *.prj
-*.las
 *.c
 *.pyd

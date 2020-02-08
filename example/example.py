@@ -17,7 +17,7 @@ if __name__ == '__main__':
     F_CHM = 'data/CHM.tif'
     F_DTM = 'data/DTM.tif'
     F_DSM = 'data/DSM.tif'
-    F_LAS = 'data/POINTS.laz'
+    F_LAS = 'data/POINTS.las'
 
     PC = PyCrown(F_CHM, F_DTM, F_DSM, F_LAS, outpath='result')
 
@@ -33,7 +33,8 @@ if __name__ == '__main__':
     # Clip trees to bounding box (no trees on image edge)
     # original extent: 1802140, 1802418, 5467295, 5467490
     # PC.clip_trees_to_bbox(bbox=(1802150, 1802408, 5467305, 5467480))
-    PC.clip_trees_to_bbox(bbox=(1802160, 1802400, 5467315, 5467470))
+    # PC.clip_trees_to_bbox(bbox=(1802160, 1802400, 5467315, 5467470))
+    PC.clip_trees_to_bbox(inbuf=11)  # inward buffer of 11 metre
 
     # Crown Delineation
     PC.crown_delineation(algorithm='dalponteCIRC_numba', th_tree=15.,

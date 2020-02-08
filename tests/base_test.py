@@ -5,9 +5,9 @@ class TestExampleNoLAS(unittest.TestCase):
 
     def setUp(self):
         ''' initialize test scenario '''
-        F_CHM = 'tests/data/CHM.tif'
-        F_DTM = 'tests/data/DTM.tif'
-        F_DSM = 'tests/data/DSM.tif'
+        F_CHM = 'example/data/CHM.tif'
+        F_DTM = 'example/data/DTM.tif'
+        F_DSM = 'example/data/DSM.tif'
         self.PC = PyCrown(F_CHM, F_DTM, F_DSM, outpath="./")
 
     def test_treedetection_without_smoothing(self):
