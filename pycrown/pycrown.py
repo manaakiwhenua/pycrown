@@ -398,12 +398,8 @@ class PyCrown:
         ndarray
             smoothed raster
         """
-        if ws % resolution:
-            raise Exception('Filter size not an integer.')
-        else:
-            ws = int(ws / resolution)
-            return filters.median_filter(
-                raster, footprint=self._get_kernel(ws, circular=circular))
+        return filters.median_filter(
+            raster, footprint=self._get_kernel(ws, circular=circular))
 
     def clip_data_to_bbox(self, bbox, las_offset=10):
         """ Clip input data to subset region based on bounding box
@@ -450,22 +446,25 @@ class PyCrown:
         self.trees[f'{loc}_elevation'] = self._get_z(
             lons, lats, self.dtm, self.resolution)
 
-    def filter_chm(self, ws, circular=False):
+    def filter_chm(self, ws, ws_in_pixels=False, circular=False):
         ''' Pre-process the canopy height model (smoothing and outlier removal).
         The original CHM (self.chm0) is not overwritten, but a new one is
         stored (self.chm).
 
         Parameters
         ----------
-        ws :          int
-                      window size of smoothing filter
-        circular :    bool, optional
-                      set to True for disc-shaped filter kernel, block otherwise
+        ws :            int
+                        window size of smoothing filter in metre (set in_pixel=True, otherwise)
+        ws_in_pixels :  bool, optional
+                        sets ws in pixel
+        circular :      bool, optional
+                        set to True for disc-shaped filter kernel, block otherwise
         '''
-        if ws % self.resolution:
-            raise Exception("Filter size not an integer.")
-
-        ws = int(ws / self.resolution)
+        if not ws_in_pixels:
+            if ws % self.resolution:
+                raise Exception("Image filter size not an integer number. Please check if image resolution matches filter size (in metre or pixel).")
+            else:
+                ws = int(ws / self.resolution)
 
         self.chm = self._smooth_raster(self.chm0, ws, self.resolution,
                                        circular=circular)
@@ -474,7 +473,7 @@ class PyCrown:
         self.chm[zmask] = 0
 
     def tree_detection(self, raster, resolution=None, ws=5, hmin=20,
-                       return_trees=False):
+                       return_trees=False, ws_in_pixels=False):
         ''' Detect individual trees from CHM raster based on a maximum filter.
         Identified trees are either stores as list in the tree dataframe or
         returned as ndarray.
@@ -486,13 +485,15 @@ class PyCrown:
         resolution :    int, optional
                         resolution of raster in m
         ws :            float
-                        moving window size to the detect the local maxima
+                        moving window size (in metre) to detect the local maxima
         hmin :          float
                         Minimum height of a tree. Threshold below which a pixel
                         or a point cannot be a local maxima
         return_trees :  bool
                         set to True if detected trees shopuld be returned as
                         ndarray instead of being stored in tree dataframe
+        ws_in_pixels :  bool
+                        sets ws in pixel
 
         Returns
         -------
@@ -505,10 +506,11 @@ class PyCrown:
 
         resolution = resolution if resolution else self.resolution
 
-        if ws % resolution:
-            raise Exception('Filter size not an integer.')
-        else:
-            ws = int(ws / resolution)
+        if not ws_in_pixels:
+            if ws % resolution:
+                raise Exception("Image filter size not an integer number. Please check if image resolution matches filter size (in metre or pixel).")
+            else:
+                ws = int(ws / resolution)
 
         # Maximum filter to find local peaks
         raster_maximum = filters.maximum_filter(
@@ -631,7 +633,7 @@ class PyCrown:
 
         self.crowns = np.array(crowns, dtype=np.int32)
 
-    def clip_trees_to_bbox(self, bbox=None, inbuf=None, f_tiles=None, row=None, 
+    def clip_trees_to_bbox(self, bbox=None, inbuf=None, f_tiles=None, row=None,
                            col=None, loc='top'):
         """ Clip tree tops and crowns to bounding box or tile extent.
         Tree dataframe is updated with subset of trees.

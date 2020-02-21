@@ -25,10 +25,10 @@ if __name__ == '__main__':
     # PC.clip_data_to_bbox((1802200, 1802400, 5467250, 5467450))
 
     # Smooth CHM with 5m median filter
-    PC.filter_chm(5)
+    PC.filter_chm(5, ws_in_pixel=True)
 
     # Tree Detection with local maximum filter
-    PC.tree_detection(PC.chm, ws=5, hmin=16.)
+    PC.tree_detection(PC.chm, ws=5, ws_in_pixel=True, hmin=16.)
 
     # Clip trees to bounding box (no trees on image edge)
     # original extent: 1802140, 1802418, 5467295, 5467490
