@@ -1,3 +1,6 @@
+[![manaakiwhenua-standards](https://github.com/manaakiwhenua/<NAME OF YOUR REPOSITORY>/workflows/manaakiwhenua-standards/badge.svg)](https://github.com/manaakiwhenua/manaakiwhenua-standards)
+
+
 # PyCrown - Fast raster-based individual tree segmentation for LiDAR data
 Author: Dr Jan Zörner (<mailto:zoernerj@landcareresearch.co.nz>)
 
@@ -27,7 +30,7 @@ We re-implement the crown delineation algorithms from **Dalponte and Coomes (201
 
 Our Cython and Numba implementations of the original algorithm provide a significant speed-up compared to *itcSegment* and a moderate improvement over the version available in the *lidR* package.
 
-We also adapted the crown algorithm slightly to grow in circular fashion around the tree top which gives crown a smoother, more natural looking shape. 
+We also adapted the crown algorithm slightly to grow in circular fashion around the tree top which gives crown a smoother, more natural looking shape.
 
 We add an additional step to correct for erroneous tree top locations on steep slopes by taking either the high point from the surface model or the centre of mass of the tree crown as new tree top.
 
@@ -117,7 +120,7 @@ Building the Cython module requires C++ build tools which may need to be install
 
 The Windows error message on Windows provides instructions:
 `error: Microsoft Visual C++ 14.0 is required. Get it with "Build Tools for Visual Studio": https://visualstudio.microsoft.com/downloads/`
-During the setup process, please select 'C++ Build Tools'. 
+During the setup process, please select 'C++ Build Tools'.
 
 ## TypeError: a bytes-like object is required, not 'FakeMmap' when trying to load .laz files
 There seems to be an incompatibility between laspy and numpy in recent versions. The combination `numpy==1.16.4` and `laspy==1.5.1` works for me.

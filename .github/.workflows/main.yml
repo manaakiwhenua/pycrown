@@ -1,0 +1,14 @@
+name: manaakiwhenua-standards
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name : 'Checkout'
+        uses : 'actions/checkout@v2'
+      - name : 'manaakiwhenua-standards'
+        uses : manaakiwhenua/manaakiwhenua-standards@v0.1.1
