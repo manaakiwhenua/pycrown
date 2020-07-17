@@ -2,7 +2,7 @@
 
 
 # PyCrown - Fast raster-based individual tree segmentation for LiDAR data
-Author: Dr Jan Zörner (<mailto:zoernerj@landcareresearch.co.nz>)
+Author: Dr Jan Schindler (formerly Zörner) (<mailto:schindlerj@landcareresearch.co.nz>)
 
 Published under GNU GPLv3
 
