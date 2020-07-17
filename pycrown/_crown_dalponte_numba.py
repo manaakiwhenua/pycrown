@@ -66,7 +66,7 @@ def _crown_dalponte(Chm, Trees, th_seed, th_crown, th_tree, max_crown):
                 # enter if pixel belongs to a tree top or tree crown
                 if Crowns[row, col]:
 
-                    # id of the treecrown for the current pixel
+                    # id of the tree crown for the current pixel
                     tidx = Crowns[row, col] - 1
 
                     # Pixel coordinates of current seed
@@ -106,7 +106,7 @@ def _crown_dalponte(Chm, Trees, th_seed, th_crown, th_tree, max_crown):
                         # 7. Neighbour is not too far from the tree top (x-dir)
                         # 8. Neighbour is not too far from the tree top (y-dir)
                         if nb_h > th_tree and \
-                           not Crowns[nb_y, nb_x] and \
+                           not CrownsTemp[nb_y, nb_x] and \
                            nb_h > (seed_h * th_seed) and \
                            nb_h > (mh_crown * th_crown) and \
                            nb_h <= (seed_h * 1.05) and \
