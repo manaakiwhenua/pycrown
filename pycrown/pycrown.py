@@ -193,7 +193,6 @@ class PyCrown:
         )).transpose()
         colnames = ['x', 'y', 'z', 'intensity', 'return_num', 'classification']
         self.las = pd.DataFrame(lidar_points, columns=colnames)
-        self.las = self.las[self.las.classification == 0.]
         las.close()
 
     def _check_empty(self):
