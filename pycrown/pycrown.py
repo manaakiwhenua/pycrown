@@ -8,6 +8,7 @@ Licence: GNU GPLv3
 import time
 import platform
 import warnings
+from math import floor
 from pathlib import Path
 
 import pyximport
@@ -801,7 +802,8 @@ class PyCrown:
             polys.append(Polygon(edges))
         self.trees.crown_poly_raster = polys
 
-    def crowns_to_polys_smooth(self, store_las=True):
+    def crowns_to_polys_smooth(self, store_las=True, thin_perc=None,
+                               first_return=True):
         """ Smooth crown polygons using Dalponte & Coomes (2016) approach:
         Builds a convex hull around first return points (which lie within the
         rasterized crowns).
@@ -813,10 +815,23 @@ class PyCrown:
         store_las :    bool
                        set to True if LiDAR point clouds shopuld be classified
                        and stored externally
+        thin_perc :    None or int
+                       percentage amount by how much the point cloud should be
+                       thinned out randomly
+        first_return : bool
+                       use first return points to create convex hull (all
+                       points otherwise)
         """
+
+        if thin_perc:
+            thin_size = floor(len(self.las) * (1 - thin_perc))
+            lidar_geodf = self.las.sample(n=thin_size)
+        else:
+            lidar_geodf = self.las
+
         print('Converting LAS point cloud to shapely points')
-        geometry = [Point(xy) for xy in zip(self.las.x, self.las.y)]
-        lidar_geodf = gpd.GeoDataFrame(self.las, crs=f'epsg:{self.epsg}',
+        geometry = [Point(xy) for xy in zip(lidar_geodf.x, lidar_geodf.y)]
+        lidar_geodf = gpd.GeoDataFrame(lidar_geodf, crs=f'epsg:{self.epsg}',
                                        geometry=geometry)
 
         print('Converting raster crowns to shapely polygons')
@@ -849,7 +864,8 @@ class PyCrown:
             if len(points.z) > 1 and not np.allclose(points.z,
                                                      points.iloc[0].z):
                 points = points[points.z >= threshold_otsu(points.z)]
-                points = points[points.return_num == 1]
+                if first_return:
+                    points = points[points.return_num == 1]  # first returns
             hull = points.unary_union.convex_hull
             polys.append(hull)
             lidar_tree_mask[bool_indices] = \
